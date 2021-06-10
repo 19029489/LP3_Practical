@@ -7,4 +7,18 @@
     android:orientation="vertical"
     tools:context=".GuideFragment">
 
+    <com.jsibbold.zoomage.ZoomageView
+        android:id="@+id/zv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/ic_launcher"
+        app:zoomage_restrictBounds="false"
+        app:zoomage_animateOnReset="true"
+        app:zoomage_autoResetMode="UNDER"
+        app:zoomage_autoCenter="true"
+        app:zoomage_zoomable="true"
+        app:zoomage_translatable="true"
+        app:zoomage_maxScale="8"
+        app:zoomage_minScale="0.6" />
+
 </LinearLayout>

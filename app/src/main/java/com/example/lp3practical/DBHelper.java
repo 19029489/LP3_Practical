@@ -3,8 +3,10 @@ package com.example.lp3practical;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+
+		String createTable = "CREATE TABLE " + TABLE_NAME + "("
+				+ COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ COLUMN_NAME + " TEXT," +
+				COLUMN_CATEGORY + " TEXT )";
+		db.execSQL(createTable);
+		Log.i("info", "created tables");
 
 		//create some dummy data in DB table for testing
 		Drink[] drinks = {new Drink("Latte", "coffee"),
@@ -49,6 +58,23 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 
 	public ArrayList<String> getItemsOfCategory(String category) {
+		ArrayList<String> names = new ArrayList<String>();
 
+		SQLiteDatabase db = this.getReadableDatabase();
+		String[] columns = {COLUMN_NAME};
+		String condition = COLUMN_CATEGORY + " = " + "'" + category + "'";
+
+		Cursor cursor = db.query(TABLE_NAME, columns, condition, null, null, null, null);
+
+		if (cursor.moveToFirst()){
+			do {
+				String name = cursor.getString(0);
+
+				names.add(name);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		db.close();
+		return names;
 	}
 }
